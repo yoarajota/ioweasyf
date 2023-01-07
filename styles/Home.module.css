@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
+  padding: 3rem;
   min-height: 100vh;
 }
 
@@ -20,18 +20,33 @@
 
 .description a {
   display: flex;
-  justify-content: center;
+  justify-content: center;  
   align-items: center;
   gap: 0.5rem;
 }
 
 .description p {
+  margin-top: 0.5em;
   position: relative;
-  margin: 0;
-  padding: 1rem;
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
-  border-radius: var(--border-radius);
+}
+
+.description input {
+  margin-top: 0.7em;
+  border: none;
+  border-bottom: 1px solid rgb(var(--foreground-rgb)) ;
+  background-color: transparent;
+}
+
+.wrap {
+  margin: 0 auto;
+  align-items: center;
+  justify-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.description input:focus {
+  outline: none;
 }
 
 .code {
