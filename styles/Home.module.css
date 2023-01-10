@@ -64,14 +64,6 @@
   overflow: hidden;
 }
 
-.result>div {
-  height: 400px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .loadingWrap {
   width: 100px;
   height: 5px;
@@ -83,4 +75,11 @@
   width: 5px;
   border-radius: 90px;
   background: rgb(var(--foreground-rgb));
+}
+
+.listContainer {
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  margin-bottom: 60px;
 }

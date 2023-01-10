@@ -2,11 +2,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import sendUser from '../logic/sendUser'
 import { motion } from 'framer-motion'
 import { type } from 'os'
 import Loading from '../public/components/loading'
+import { stat } from 'fs'
+import ListOfItems from '../public/components/listOfItems'
 
 const FOOTER_2 = () => {
   return (
@@ -44,12 +46,18 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [user, setUser] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<any>();
 
-  const send = useCallback(() => {
+  const send = useCallback(async () => {
     if (user?.length < 4) return
-    setStatus(sendUser(user))
+    setIsLoading(true)
+    let status = await sendUser(user);
+    setStatus(status)
+    setIsLoading(false)
   }, [user])
+
+useEffect(() => {console.log(status)}, [status])
 
   return (
     <>
@@ -87,9 +95,8 @@ export default function Home() {
               type: 'spring'
             }}
           >
-            <div>
-              {status && <Loading />}
-            </div>
+              {isLoading && <Loading />}
+            <ListOfItems items={status?.data?.unfollowersList} />
           </motion.div>
 
 
