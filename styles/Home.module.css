@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 3rem;
   min-height: 100vh;
@@ -15,6 +15,19 @@
   max-width: var(--max-width);
   width: 100%;
   z-index: 2;
+}
+
+.submitButton {
+  margin: 10px 0;
+  padding: 5px 25px;
+  border-radius: 3px;
+  background: none;
+  border: none;
+  transition: 0.3s;
+}
+
+.submitButton:hover {
+  opacity: 0.5;
 }
 
 .description a {
@@ -51,7 +64,6 @@
 
 .center {
   position: relative;
-  margin: auto;
   text-align: center;
 }
 
@@ -82,4 +94,14 @@
   display: grid;
   justify-content: center;
   margin-bottom: 60px;
+}
+
+.wrap100widthCenter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton > p{
+  margin-top: 0;
 }

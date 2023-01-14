@@ -49,15 +49,25 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<any>();
 
+  // Save Data to Local Storage. localStorage.setItem(key, value);
+  // Read Data from Local Storage. let lastname = localStorage.getItem(key);
+
+  useEffect(() => {
+    setUser(sessionStorage.getItem('username') ?? '')
+  }, [])
+
+
   const send = useCallback(async () => {
+    setStatus(false) // TALVEZ TIRAR ISSO
     if (user?.length < 4) return
     setIsLoading(true)
     let status = await sendUser(user);
+    if (status?.status) {
+      sessionStorage.setItem('username', user)
+    }
     setStatus(status)
     setIsLoading(false)
   }, [user])
-
-useEffect(() => {console.log(status)}, [status])
 
   return (
     <>
@@ -75,9 +85,12 @@ useEffect(() => {console.log(status)}, [status])
               ioweasy
             </h1>
             <p>instagram user</p>
-            <input onBlur={() => send()} value={user} onChange={(e) => setUser(e.target.value)} type={'text'}></input>
+            <input value={user} onChange={(e) => setUser(e.target.value)} type={'text'}></input>
+            <button className={styles.submitButton} onClick={() => send()}> <p>send</p> </button>
           </div>
         </motion.div>
+        {isLoading && <div className={styles.wrap100widthCenter}><Loading /></div>}
+        <p>{status?.message}</p>
         <motion.div
           className={styles.center}
           initial={{ opacity: 0, scale: 0.5 }}
@@ -95,12 +108,10 @@ useEffect(() => {console.log(status)}, [status])
               type: 'spring'
             }}
           >
-              {isLoading && <Loading />}
             <ListOfItems items={status?.data?.unfollowersList} />
           </motion.div>
 
-
-          {status ? <FOOTER_1 /> : <FOOTER_2 />}
+          {status ? (status?.data?.unfollowersList.length > 1 ? <FOOTER_1 /> : <></>) : <FOOTER_2 />}
         </motion.div>
       </main>
     </>

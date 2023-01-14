@@ -1,13 +1,12 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
+type Response = {
+    status?: string,
+    data?: any
+    message?: any,
+}
 
-export default async function sendUser(user?: string) {
-    let r;
-    await axios.post('http://localhost:8000/followers', { user: user }
-    ).then((response) => {
-        r = response.data
-    }).catch((err) => {
-
-    })
-    return r
+export default async function sendUser(user?: string): Promise<Response> {
+    return await axios.post('http://localhost:8000/followers', { user: user }
+    ).then(res => res.data)
 }
