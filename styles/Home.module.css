@@ -105,3 +105,19 @@
 .submitButton > p{
   margin-top: 0;
 }
+
+.header {
+  position: absolute;
+  width: 100%;
+}
+
+.header p{
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.header p:hover {
+  opacity: 0.5;
+}
