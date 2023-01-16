@@ -65,6 +65,15 @@
   flex-direction: column;
 }
 
+.wrap>h4 {
+  margin-top: 20px;
+}
+
+.wrap>div {
+  display: flex;
+  gap: 15px;
+}
+
 .description input:focus {
   outline: none;
 }
@@ -103,7 +112,7 @@
   justify-content: center;
 }
 
-.submitButton > p{
+.submitButton>p {
   margin-top: 0;
 }
 
@@ -112,7 +121,7 @@
   width: 100%;
 }
 
-.header p{
+.header p {
   position: absolute;
   right: 15px;
   top: 15px;
@@ -131,7 +140,53 @@
   width: 100%;
 }
 
-.footerWrap h1{
+.footerWrap h1 {
   font-size: 18px;
   margin-bottom: 15px;
+}
+
+.aboutMeWrap>div {
+  text-align: center;
+}
+
+.aboutMeWrap>div>p {
+  margin: 25px 0;
+}
+
+.buttonsWrap {
+  margin: 50px auto 0 auto;
+  width: 30vw;
+  display: flex;
+  justify-content: space-around;
+}
+
+.buttonsWrap>button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  color: rgb(var(--foreground-rgb));
+  background: none;
+  border: none;
+  font-size: 15px;
+  margin-top: 60px;
+  height: 100px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.buttonsWrap>button:hover {
+  opacity: 0.5;
+}
+
+.buttonsWrap svg {
+  font-size: 40px;
+}
+
+.portifolioButton {
+  margin-top: 0px !important;
+  font-size: 22px !important;
+}
+
+.main button:focus {
+  outline: none;
 }
