@@ -11,7 +11,7 @@ const ListOfItems = ({ items }: Items) => {
         // inside useEffect, the window is always present
         const updateWindowSize = () => {
             setColumnWidth(() => {
-                var columnCount = window.innerWidth < 1000 ? Math.ceil(window.innerWidth / 250) : Math.ceil(items?.length / 10);
+                var columnCount = window.innerWidth < 1000 ? items?.length < 10 ? 1 : Math.ceil(window.innerWidth / 250) : Math.ceil(items?.length / 10);
                 console.log(Math.ceil(items?.length / 10))
                 return `repeat(${columnCount}, 200px)`;
             });

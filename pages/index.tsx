@@ -11,7 +11,7 @@ import Link from "next/link";
 
 const FOOTER_2 = () => {
   return (
-    <>
+    <div className={styles.footerWrap}>
       <h1>about</h1>
       <p>
         ioweasy list yours recent unfollowers
@@ -21,18 +21,18 @@ const FOOTER_2 = () => {
         ioweasy collect, store and compare the list of followers provided by
         Instagram user interface
       </p>
-    </>
+    </div>
   );
 };
 const FOOTER_1 = () => {
   return (
-    <>
+    <div className={styles.footerWrap}>
       <h1>remember</h1>
       <p>
         the list may have imprecise information because the algorithm use the
         instagram user interface
       </p>
-    </>
+    </div>
   );
 };
 
@@ -42,21 +42,28 @@ export default function Home() {
   const [user, setUser] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<any>();
+  const [showStatus, setShowStatus] = useState<boolean>();
+  const [lastUsername, setLastusername] = useState<string>('');
 
   useEffect(() => {
     setUser(sessionStorage.getItem("username") ?? "");
   }, []);
-
+  
   const send = useCallback(async () => {
-    if (user?.length < 4) return;
+    setLastusername(user)
+    console.log(user, lastUsername, 'dafok')
+    if (user?.length < 4 || user === lastUsername) return;
+    setShowStatus(false)
     setIsLoading(true);
     let status = await sendUser(user);
-    if (status?.status) {
+    if (status?.status === "success") {
       sessionStorage.setItem("username", user);
     }
+
+    setShowStatus(true)
     setStatus(status);
     setIsLoading(false);
-  }, [user]);
+  }, [user, lastUsername]);
 
   return (
     <>
@@ -84,47 +91,47 @@ export default function Home() {
               type={"text"}
             ></input>
             <button className={styles.submitButton} onClick={() => send()}>
-              {" "}
-              <p>send</p>{" "}
+              <p>send</p>
             </button>
+            {showStatus && <p>{status?.message}</p>}
           </div>
         </motion.div>
-        {isLoading && (
-          <div className={styles.wrap100widthCenter}>
-            <Loading />
-          </div>
-        )}
-        <p>{status?.message}</p>
-        <motion.div
-          className={styles.center}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.8,
-            delay: 0.5,
-            ease: [0, 0.71, 0.2, 1.01],
-          }}
-        >
+        <div className={styles.content}>
+          {isLoading && (
+            <div className={styles.wrap100widthCenter}>
+              <Loading />
+            </div>
+          )}
           <motion.div
-            className={styles.result}
-            animate={{ height: status ? "auto" : 0 }}
+            className={styles.center}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{
-              type: "spring",
+              duration: 0.8,
+              delay: 0.5,
+              ease: [0, 0.71, 0.2, 1.01],
             }}
           >
-            <ListOfItems items={status?.data?.unfollowersList} />
+            <motion.div
+              className={styles.result}
+              animate={{ height: status && showStatus ? "auto" : 0 }}
+              transition={{
+                type: "spring",
+              }}
+            >
+              <ListOfItems items={status?.data?.unfollowersList} />
+            </motion.div>
           </motion.div>
-
-          {status ? (
-            status?.data?.unfollowersList.length > 1 ? (
-              <FOOTER_1 />
-            ) : (
-              <></>
-            )
+        </div>
+        {status ? (
+          status?.data?.unfollowersList.length > 0 ? (
+            <FOOTER_1 />
           ) : (
-            <FOOTER_2 />
-          )}
-        </motion.div>
+            <></>
+          )
+        ) : (
+          <FOOTER_2 />
+        )}
       </main>
     </>
   );
