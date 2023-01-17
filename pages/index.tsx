@@ -53,7 +53,7 @@ interface Action {
 
 export interface Params {
   user: string;
-  type: string|number;
+  type: string | number;
 }
 
 function reducer(state: Params, action: Action) {
@@ -63,7 +63,7 @@ function reducer(state: Params, action: Action) {
 
 export default function Home() {
   const [state, dispatch] = useReducer(reducer, { user: "", type: 1 });
-  const {user, type} = state;
+  const { user, type } = state;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<any>();
   const [showStatus, setShowStatus] = useState<boolean>();
@@ -75,7 +75,7 @@ export default function Home() {
       payload: sessionStorage.getItem("username") ?? "",
     });
   }, []);
-  
+
   const send = useCallback(async () => {
     setLastusername(user)
     if (user?.length < 4 || user === lastUsername) return;
@@ -120,6 +120,8 @@ export default function Home() {
                 value="1"
                 name="type"
                 onChange={(e) => {
+                  setLastusername('')
+
                   dispatch({
                     type: ActionType.type,
                     payload: parseInt(e.target.value),
@@ -134,6 +136,8 @@ export default function Home() {
                 value="2"
                 name="type"
                 onChange={(e) => {
+                  setLastusername('')
+
                   dispatch({
                     type: ActionType.type,
                     payload: parseInt(e.target.value),
@@ -182,12 +186,12 @@ export default function Home() {
                 type: "spring",
               }}
             >
-              <ListOfItems items={status?.data?.unfollowersList} />
+              <ListOfItems items={status?.data?.list} />
             </motion.div>
           </motion.div>
         </div>
         {status ? (
-          status?.data?.unfollowersList.length > 0 ? (
+          status?.data?.list.length > 0 ? (
             <FOOTER_1 />
           ) : (
             <></>
