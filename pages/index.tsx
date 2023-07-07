@@ -8,9 +8,9 @@ import Loading from "../public/components/loading";
 import ListOfItems from "../public/components/listOfItems";
 import Link from "next/link";
 
-const COMPARSION = "comparsion type will compare and show the account that u follow and dont follow you back"
+const COMPARSION =
+  "comparsion type will compare and show the account that u follow and dont follow you back";
 const NORMAL = "normal type will get the list of unfollowers of the account";
-
 
 const FOOTER_2 = () => {
   return (
@@ -42,8 +42,10 @@ const FOOTER_1 = () => {
 const inter = Inter({ subsets: ["latin"] });
 
 enum ActionType {
-  user = 'user',
-  type = 'type',
+  user = "user",
+  type = "type",
+  followersFile = "followers_file",
+  followingFile = "following_file",
 }
 
 interface Action {
@@ -54,6 +56,8 @@ interface Action {
 export interface Params {
   user: string;
   type: string | number;
+  followers_file: string;
+  following_file: string | number;
 }
 
 function reducer(state: Params, action: Action) {
@@ -62,12 +66,17 @@ function reducer(state: Params, action: Action) {
 }
 
 export default function Home() {
-  const [state, dispatch] = useReducer(reducer, { user: "", type: 1 });
+  const [state, dispatch] = useReducer(reducer, {
+    user: "",
+    type: 1,
+    followers_file: "",
+    following_file: "",
+  });
   const { user, type } = state;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<any>();
   const [showStatus, setShowStatus] = useState<boolean>();
-  const [lastUsername, setLastusername] = useState<string>('');
+  const [lastUsername, setLastusername] = useState<string>("");
 
   useEffect(() => {
     dispatch({
@@ -77,16 +86,20 @@ export default function Home() {
   }, []);
 
   const send = useCallback(async () => {
-    setLastusername(user)
+    if (type === 0) {
+      return;
+    }
+
+    setLastusername(user);
     if (user?.length < 4 || user === lastUsername) return;
-    setShowStatus(false)
+    setShowStatus(false);
     setIsLoading(true);
     let status = await sendUser(state);
     if (status?.status === "success") {
       sessionStorage.setItem("username", user);
     }
 
-    setShowStatus(true)
+    setShowStatus(true);
     setStatus(status);
     setIsLoading(false);
   }, [user, lastUsername, state]);
@@ -116,11 +129,11 @@ export default function Home() {
               <input
                 title={NORMAL}
                 type="radio"
-                checked={type === 1}
-                value="1"
+                checked={type === 0}
+                value="0"
                 name="type"
                 onChange={(e) => {
-                  setLastusername('')
+                  setLastusername("");
 
                   dispatch({
                     type: ActionType.type,
@@ -128,7 +141,25 @@ export default function Home() {
                   });
                 }}
               />
-              <p title={NORMAL}>normal type</p>
+              <p title={NORMAL}>data type</p>
+              <input
+                title={NORMAL}
+                type="radio"
+                checked={type === 1}
+                value="1"
+                name="type"
+                onChange={(e) => {
+                  setLastusername("");
+
+                  dispatch({
+                    type: ActionType.type,
+                    payload: parseInt(e.target.value),
+                  });
+                }}
+              />
+              <p title={NORMAL}>
+                slowly type <b>(not working)</b>
+              </p>
               <input
                 title={COMPARSION}
                 type="radio"
@@ -136,7 +167,7 @@ export default function Home() {
                 value="2"
                 name="type"
                 onChange={(e) => {
-                  setLastusername('')
+                  setLastusername("");
 
                   dispatch({
                     type: ActionType.type,
@@ -144,19 +175,55 @@ export default function Home() {
                   });
                 }}
               />
-              <p title={COMPARSION}>comparsion type</p>
+              <p title={COMPARSION}>
+                comparsion type <b>(not working)</b>
+              </p>
             </div>
-            <h4>instagram user</h4>
-            <input
-              value={user}
-              onChange={(e) =>
-                dispatch({
-                  type: ActionType.user,
-                  payload: e.target.value,
-                })
-              }
-              type={"text"}
-            ></input>
+
+            {type === 0 ? (
+              <>
+                <div className={styles.archiveDiv}>
+                  <h5>followers file</h5>
+                  <input
+                    value={state?.[ActionType.followersFile]}
+                    onChange={(e) =>
+                      dispatch({
+                        type: ActionType.followersFile,
+                        payload: e.target.value,
+                      })
+                    }
+                    type="file"
+                  ></input>
+                </div>
+                <div className={styles.archiveDiv}>
+                  <h5>following file</h5>
+                  <input
+                    value={state?.[ActionType.followingFile]}
+                    onChange={(e) =>
+                      dispatch({
+                        type: ActionType.followingFile,
+                        payload: e.target.value,
+                      })
+                    }
+                    type="file"
+                  ></input>
+                </div>
+              </>
+            ) : (
+              <>
+                <h4>instagram user</h4>
+                <input
+                  value={user}
+                  onChange={(e) =>
+                    dispatch({
+                      type: ActionType.user,
+                      payload: e.target.value,
+                    })
+                  }
+                  type="text"
+                ></input>
+              </>
+            )}
             <button className={styles.submitButton} onClick={() => send()}>
               <p>send</p>
             </button>

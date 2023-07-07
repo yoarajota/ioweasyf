@@ -195,3 +195,13 @@
 .main button:focus {
   outline: none;
 }
+
+.archiveDiv {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.archiveDiv>input {
+  margin: 0;
+}
