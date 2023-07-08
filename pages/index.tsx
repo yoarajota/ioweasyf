@@ -2,11 +2,12 @@ import Head from "next/head";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import { useCallback, useEffect, useReducer, useState } from "react";
-import sendUser from "../logic/sendUser";
 import { motion } from "framer-motion";
 import Loading from "../public/components/loading";
 import ListOfItems from "../public/components/listOfItems";
 import Link from "next/link";
+import { getFromHtml } from "../logic/helpers";
+import sendToApi, { Response } from "../logic/sendToApi";
 
 const COMPARSION =
   "comparsion type will compare and show the account that u follow and dont follow you back";
@@ -50,14 +51,14 @@ enum ActionType {
 
 interface Action {
   type: ActionType;
-  payload: number | string;
+  payload?: number | string | File | null;
 }
 
 export interface Params {
   user: string;
   type: string | number;
-  followers_file: string;
-  following_file: string | number;
+  followers_file?: File;
+  following_file?: File;
 }
 
 function reducer(state: Params, action: Action) {
@@ -69,10 +70,8 @@ export default function Home() {
   const [state, dispatch] = useReducer(reducer, {
     user: "",
     type: 1,
-    followers_file: "",
-    following_file: "",
   });
-  const { user, type } = state;
+  const { user, type, followers_file, following_file } = state;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<any>();
   const [showStatus, setShowStatus] = useState<boolean>();
@@ -86,23 +85,43 @@ export default function Home() {
   }, []);
 
   const send = useCallback(async () => {
+    let status: Response = {};
     if (type === 0) {
-      return;
-    }
+      let followersFileToSend, followingFileToSend;
+      if (!followers_file || !following_file) {
+        return;
+      }
 
-    setLastusername(user);
-    if (user?.length < 4 || user === lastUsername) return;
-    setShowStatus(false);
-    setIsLoading(true);
-    let status = await sendUser(state);
-    if (status?.status === "success") {
-      sessionStorage.setItem("username", user);
+      setIsLoading(true);
+
+      if (followers_file?.type === "text/html") {
+        followersFileToSend = await getFromHtml(followers_file);
+      }
+
+      if (following_file?.type === "text/html") {
+        followingFileToSend = await getFromHtml(following_file);
+      }
+
+      status = await sendToApi({
+        followers_list: followersFileToSend,
+        following_list: followingFileToSend,
+        type: type,
+      });
+    } else {
+      setLastusername(user);
+      if (user?.length < 4 || user === lastUsername) return;
+      setShowStatus(false);
+      setIsLoading(true);
+      status = await sendToApi(state);
+      if (status?.status === "success") {
+        sessionStorage.setItem("username", user);
+      }
     }
 
     setShowStatus(true);
     setStatus(status);
     setIsLoading(false);
-  }, [user, lastUsername, state]);
+  }, [type, user, lastUsername, state, followers_file, following_file]);
 
   return (
     <>
@@ -185,11 +204,10 @@ export default function Home() {
                 <div className={styles.archiveDiv}>
                   <h5>followers file</h5>
                   <input
-                    value={state?.[ActionType.followersFile]}
                     onChange={(e) =>
                       dispatch({
                         type: ActionType.followersFile,
-                        payload: e.target.value,
+                        payload: e.target.files?.[0],
                       })
                     }
                     type="file"
@@ -198,11 +216,10 @@ export default function Home() {
                 <div className={styles.archiveDiv}>
                   <h5>following file</h5>
                   <input
-                    value={state?.[ActionType.followingFile]}
                     onChange={(e) =>
                       dispatch({
                         type: ActionType.followingFile,
-                        payload: e.target.value,
+                        payload: e.target.files?.[0],
                       })
                     }
                     type="file"

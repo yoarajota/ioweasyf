@@ -105,6 +105,9 @@
   width: 100%;
   display: grid;
   justify-content: center;
+  max-height: 50vh;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .wrap100widthCenter {
