@@ -203,7 +203,7 @@
 .archiveDiv {
   display: flex;
   align-items: center;
-  margin: 15px 0;
+  gap: 12px;
 }
 
 .archiveDiv>input {
@@ -224,6 +224,17 @@
 .folderMessage {
   margin-top: 15px;
   font-size: 0.68rem;
+}
+
+.archiveDivWrap {
+  margin-top: 20px;
+  justify-content: left;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.archiveDivWrap h5 {
+  width: 108px;
 }
 
 @media (max-width: 450px) {

@@ -176,7 +176,7 @@ export default function Home() {
                   name="type"
                   onChange={(e) => {
                     setLastusername("");
-                    setStatus(undefined)
+                    setStatus(undefined);
                     dispatch({
                       type: ActionType.type,
                       payload: parseInt(e.target.value),
@@ -194,7 +194,7 @@ export default function Home() {
                   name="type"
                   onChange={(e) => {
                     setLastusername("");
-                    setStatus(undefined)
+                    setStatus(undefined);
                     dispatch({
                       type: ActionType.type,
                       payload: parseInt(e.target.value),
@@ -214,7 +214,7 @@ export default function Home() {
                   name="type"
                   onChange={(e) => {
                     setLastusername("");
-                    setStatus(undefined)
+                    setStatus(undefined);
                     dispatch({
                       type: ActionType.type,
                       payload: parseInt(e.target.value),
@@ -241,33 +241,35 @@ export default function Home() {
                       </a>
                     </Clickable>
                     <i className={styles.folderMessage}>
-                     both are inside ``followers_and_following`` folder
+                      both are inside ``followers_and_following`` folder
                     </i>
                   </>
                 )}
-                <div className={styles.archiveDiv}>
-                  <h5>followers_1 file</h5>
-                  <input
-                    onChange={(e) =>
-                      dispatch({
-                        type: ActionType.followersFile,
-                        payload: e.target.files?.[0],
-                      })
-                    }
-                    type="file"
-                  ></input>
-                </div>
-                <div className={styles.archiveDiv}>
-                  <h5>following file</h5>
-                  <input
-                    onChange={(e) =>
-                      dispatch({
-                        type: ActionType.followingFile,
-                        payload: e.target.files?.[0],
-                      })
-                    }
-                    type="file"
-                  ></input>
+                <div  className={styles.archiveDivWrap}>
+                  <div className={styles.archiveDiv}>
+                    <h5>followers_1 file</h5>
+                    <input
+                      onChange={(e) =>
+                        dispatch({
+                          type: ActionType.followersFile,
+                          payload: e.target.files?.[0],
+                        })
+                      }
+                      type="file"
+                    ></input>
+                  </div>
+                  <div className={styles.archiveDiv}>
+                    <h5>following file</h5>
+                    <input
+                      onChange={(e) =>
+                        dispatch({
+                          type: ActionType.followingFile,
+                          payload: e.target.files?.[0],
+                        })
+                      }
+                      type="file"
+                    ></input>
+                  </div>
                 </div>
               </>
             ) : (
