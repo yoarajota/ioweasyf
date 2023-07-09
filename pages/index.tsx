@@ -149,7 +149,11 @@ export default function Home() {
     <>
       <Head>
         <title>ioweasy</title>
-        <meta name="description" content="ioweasy" />
+        <meta
+          name="description"
+          content="ioweasy collect, store and compare the list of followers provided by
+        Instagram user interface or with the analysis of the downloadable data"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -245,7 +249,7 @@ export default function Home() {
                     </i>
                   </>
                 )}
-                <div  className={styles.archiveDivWrap}>
+                <div className={styles.archiveDivWrap}>
                   <div className={styles.archiveDiv}>
                     <h5>followers_1 file</h5>
                     <input
