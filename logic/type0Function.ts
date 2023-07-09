@@ -5,5 +5,5 @@ export default function type0Function(
   let set1 = new Set(followers_list);
   let set2 = new Set(following_list);
 
-  return [...set1].filter((x) => !set2.has(x));
+  return [...set2].filter((x) => !set1.has(x));
 }

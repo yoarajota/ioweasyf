@@ -70,7 +70,7 @@ function reducer(state: Params, action: Action) {
 export default function Home() {
   const [state, dispatch] = useReducer(reducer, {
     user: "",
-    type: 1,
+    type: 0,
   });
   const { user, type, followers_file, following_file } = state;
   const [isLoading, setIsLoading] = useState<boolean>(false);
