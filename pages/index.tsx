@@ -21,7 +21,7 @@ const FOOTER_2 = () => {
       <p>
         ioweasy list yours recent unfollowers
         <br />
-        it doesn't uses Meta's API.
+        it doesn`t uses Meta`s API.
         <br />
         ioweasy collect, store and compare the list of followers provided by
         Instagram user interface
