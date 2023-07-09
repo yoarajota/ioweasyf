@@ -8,6 +8,7 @@ import ListOfItems from "../public/components/listOfItems";
 import Link from "next/link";
 import { getFromHtml } from "../logic/helpers";
 import sendToApi, { Response } from "../logic/sendToApi";
+import type0Function from "../logic/type0Function";
 
 const COMPARSION =
   "comparsion type will compare and show the account that u follow and dont follow you back";
@@ -102,26 +103,35 @@ export default function Home() {
         followingFileToSend = await getFromHtml(following_file);
       }
 
-      status = await sendToApi({
-        followers_list: followersFileToSend,
-        following_list: followingFileToSend,
-        type: type,
-      });
+      status = {
+        message: "list of the diference between yor followers and following",
+        status: "success",
+        data: { list: type0Function(followersFileToSend, followingFileToSend) },
+      };
     } else {
-      setLastusername(user);
-      if (user?.length < 4 || user === lastUsername) return;
-      setShowStatus(false);
-      setIsLoading(true);
-      status = await sendToApi(state);
-      if (status?.status === "success") {
-        sessionStorage.setItem("username", user);
-      }
+
+      ////////////////////////////////////////// TEMPORARY
+
+      status = {
+        message: "temporarily not working",
+        status: "error",
+      };
+
+
+      // setLastusername(user);
+      // if (user?.length < 4 || user === lastUsername) return;
+      // setShowStatus(false);
+      // setIsLoading(true);
+      // status = await sendToApi(state);
+      // if (status?.status === "success") {
+      //   sessionStorage.setItem("username", user);
+      // }
     }
 
     setShowStatus(true);
     setStatus(status);
     setIsLoading(false);
-  }, [type, user, lastUsername, state, followers_file, following_file]);
+  }, [type, followers_file, following_file]);
 
   return (
     <>
@@ -153,7 +163,7 @@ export default function Home() {
                 name="type"
                 onChange={(e) => {
                   setLastusername("");
-
+                  setStatus({});
                   dispatch({
                     type: ActionType.type,
                     payload: parseInt(e.target.value),
@@ -169,7 +179,7 @@ export default function Home() {
                 name="type"
                 onChange={(e) => {
                   setLastusername("");
-
+                  setStatus({});
                   dispatch({
                     type: ActionType.type,
                     payload: parseInt(e.target.value),
@@ -187,7 +197,7 @@ export default function Home() {
                 name="type"
                 onChange={(e) => {
                   setLastusername("");
-
+                  setStatus({});
                   dispatch({
                     type: ActionType.type,
                     payload: parseInt(e.target.value),

@@ -12,7 +12,11 @@ const ListOfItems = ({ items }: Items) => {
     <div className={styles.listContainer}>
       {items?.map((item: string, index) => {
         return (
-          <motion.div key={uid() + index}>
+          <motion.div
+            whileTap={{ scale: 0.92 }}
+            whileHover={{ scale: 1.08 }}
+            key={uid() + index}
+          >
             <a
               target="_blank"
               href={`https://www.instagram.com/${item}/`}
