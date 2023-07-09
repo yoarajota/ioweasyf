@@ -216,15 +216,14 @@
 }
 
 .guide {
+  padding-bottom: 4px;
   margin-top: 25px;
+  border-bottom: 1px solid rgb(var(--foreground-rgb));
 }
 
 .folderMessage {
   margin-top: 15px;
   font-size: 0.68rem;
-}
-
-.file {
 }
 
 @media (max-width: 450px) {

@@ -241,14 +241,13 @@ export default function Home() {
                       </a>
                     </Clickable>
                     <i className={styles.folderMessage}>
-                      both are inside ``followers_and_following`` folder
+                     both are inside ``followers_and_following`` folder
                     </i>
                   </>
                 )}
                 <div className={styles.archiveDiv}>
                   <h5>followers_1 file</h5>
                   <input
-                    className={styles.file}
                     onChange={(e) =>
                       dispatch({
                         type: ActionType.followersFile,
@@ -261,7 +260,6 @@ export default function Home() {
                 <div className={styles.archiveDiv}>
                   <h5>following file</h5>
                   <input
-                    className={styles.file}
                     onChange={(e) =>
                       dispatch({
                         type: ActionType.followingFile,
