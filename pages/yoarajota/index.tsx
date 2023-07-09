@@ -49,15 +49,20 @@ export default function Yoarajota() {
               onClick={() => {
                 setShow(true);
 
-                window.open(
-                  "https://www.linkedin.com/in/jo%C3%A3o-v%C3%ADtor-sberse-1b5a4021b"
-                );
+                window.open("https://www.linkedin.com/in/joao-vitor-sberse/");
               }}
             >
               <p>Linkedin</p>
               <BsLinkedin />
             </button>
-            <button className={styles.portifolioButton}>
+            <button
+              className={styles.portifolioButton}
+              onClick={() => {
+                setShow(true);
+
+                window.open("https://yoarajota.vercel.app");
+              }}
+            >
               <p>Portifolio</p>
               <Image
                 alt="YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ YJ"

@@ -50,7 +50,7 @@
   position: relative;
 }
 
-.description input {
+.description input[type="text"] {
   margin-top: 0.7em;
   border: none;
   border-bottom: 1px solid rgb(var(--foreground-rgb));
@@ -213,6 +213,18 @@
 .types>div {
   gap: 7px;
   display: flex;
+}
+
+.guide {
+  margin-top: 25px;
+}
+
+.folderMessage {
+  margin-top: 15px;
+  font-size: 0.68rem;
+}
+
+.file {
 }
 
 @media (max-width: 450px) {

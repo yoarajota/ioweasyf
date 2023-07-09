@@ -1,7 +1,7 @@
 import styles from "../../styles/Home.module.css";
 import { uid } from "../../logic/helpers";
 import { motion } from "framer-motion";
-
+import Clickable from "./clickable";
 
 type Items = {
   items: Array<any>;
@@ -12,11 +12,7 @@ const ListOfItems = ({ items }: Items) => {
     <div className={styles.listContainer}>
       {items?.map((item: string, index) => {
         return (
-          <motion.div
-            whileTap={{ scale: 0.92 }}
-            whileHover={{ scale: 1.08 }}
-            key={uid() + index}
-          >
+          <Clickable key={uid() + index}>
             <a
               target="_blank"
               href={`https://www.instagram.com/${item}/`}
@@ -24,11 +20,11 @@ const ListOfItems = ({ items }: Items) => {
             >
               {item}
             </a>
-          </motion.div>
+          </Clickable>
         );
       })}
     </div>
-  );
+  );  
 };
 
 export default ListOfItems;

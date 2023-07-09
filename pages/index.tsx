@@ -9,6 +9,7 @@ import Link from "next/link";
 import { getFromHtml, getFromJson } from "../logic/helpers";
 import sendToApi, { Response } from "../logic/sendToApi";
 import type0Function from "../logic/type0Function";
+import Clickable from "../public/components/clickable";
 
 const COMPARSION =
   "comparsion type will compare and show the account that u follow and dont follow you back";
@@ -175,14 +176,14 @@ export default function Home() {
                   name="type"
                   onChange={(e) => {
                     setLastusername("");
-                    setStatus({});
+                    setStatus(undefined)
                     dispatch({
                       type: ActionType.type,
                       payload: parseInt(e.target.value),
                     });
                   }}
                 />
-                <p title={NORMAL}>data type</p>
+                <p title={NORMAL}>downloadable data type</p>
               </div>
               <div>
                 <input
@@ -193,7 +194,7 @@ export default function Home() {
                   name="type"
                   onChange={(e) => {
                     setLastusername("");
-                    setStatus({});
+                    setStatus(undefined)
                     dispatch({
                       type: ActionType.type,
                       payload: parseInt(e.target.value),
@@ -213,7 +214,7 @@ export default function Home() {
                   name="type"
                   onChange={(e) => {
                     setLastusername("");
-                    setStatus({});
+                    setStatus(undefined)
                     dispatch({
                       type: ActionType.type,
                       payload: parseInt(e.target.value),
@@ -228,9 +229,26 @@ export default function Home() {
 
             {type === 0 ? (
               <>
+                {!followers_file && !following_file && (
+                  <>
+                    <Clickable className={styles.guide}>
+                      <a
+                        href="https://help.instagram.com/181231772500920"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        how to get the files
+                      </a>
+                    </Clickable>
+                    <i className={styles.folderMessage}>
+                      both are inside ``followers_and_following`` folder
+                    </i>
+                  </>
+                )}
                 <div className={styles.archiveDiv}>
-                  <h5>followers file</h5>
+                  <h5>followers_1 file</h5>
                   <input
+                    className={styles.file}
                     onChange={(e) =>
                       dispatch({
                         type: ActionType.followersFile,
@@ -243,6 +261,7 @@ export default function Home() {
                 <div className={styles.archiveDiv}>
                   <h5>following file</h5>
                   <input
+                    className={styles.file}
                     onChange={(e) =>
                       dispatch({
                         type: ActionType.followingFile,
