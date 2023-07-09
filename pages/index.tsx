@@ -24,7 +24,7 @@ const FOOTER_2 = () => {
         it doesn`t uses Meta`s API.
         <br />
         ioweasy collect, store and compare the list of followers provided by
-        Instagram user interface
+        Instagram user interface or with the analysis of the downloadable data
       </p>
     </div>
   );
@@ -165,59 +165,65 @@ export default function Home() {
         >
           <div className={styles.wrap}>
             <h1>ioweasy</h1>
-            <div>
-              <input
-                title={NORMAL}
-                type="radio"
-                checked={type === 0}
-                value="0"
-                name="type"
-                onChange={(e) => {
-                  setLastusername("");
-                  setStatus({});
-                  dispatch({
-                    type: ActionType.type,
-                    payload: parseInt(e.target.value),
-                  });
-                }}
-              />
-              <p title={NORMAL}>data type</p>
-              <input
-                title={NORMAL}
-                type="radio"
-                checked={type === 1}
-                value="1"
-                name="type"
-                onChange={(e) => {
-                  setLastusername("");
-                  setStatus({});
-                  dispatch({
-                    type: ActionType.type,
-                    payload: parseInt(e.target.value),
-                  });
-                }}
-              />
-              <p title={NORMAL}>
-                slowly type <b>(not working)</b>
-              </p>
-              <input
-                title={COMPARSION}
-                type="radio"
-                checked={type === 2}
-                value="2"
-                name="type"
-                onChange={(e) => {
-                  setLastusername("");
-                  setStatus({});
-                  dispatch({
-                    type: ActionType.type,
-                    payload: parseInt(e.target.value),
-                  });
-                }}
-              />
-              <p title={COMPARSION}>
-                comparsion type <b>(not working)</b>
-              </p>
+            <div className={styles.types}>
+              <div>
+                <input
+                  title={NORMAL}
+                  type="radio"
+                  checked={type === 0}
+                  value="0"
+                  name="type"
+                  onChange={(e) => {
+                    setLastusername("");
+                    setStatus({});
+                    dispatch({
+                      type: ActionType.type,
+                      payload: parseInt(e.target.value),
+                    });
+                  }}
+                />
+                <p title={NORMAL}>data type</p>
+              </div>
+              <div>
+                <input
+                  title={NORMAL}
+                  type="radio"
+                  checked={type === 1}
+                  value="1"
+                  name="type"
+                  onChange={(e) => {
+                    setLastusername("");
+                    setStatus({});
+                    dispatch({
+                      type: ActionType.type,
+                      payload: parseInt(e.target.value),
+                    });
+                  }}
+                />
+                <p title={NORMAL}>
+                  slowly type <b>(not working)</b>
+                </p>
+              </div>
+              <div>
+                <input
+                  title={COMPARSION}
+                  type="radio"
+                  checked={type === 2}
+                  value="2"
+                  name="type"
+                  onChange={(e) => {
+                    setLastusername("");
+                    setStatus({});
+                    dispatch({
+                      type: ActionType.type,
+                      payload: parseInt(e.target.value),
+                    });
+                  }}
+                />
+                <p title={COMPARSION}>
+                  comparsion type <b>(not working)</b>
+                </p>
+              </div>
             </div>
 
             {type === 0 ? (
