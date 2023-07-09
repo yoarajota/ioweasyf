@@ -21,6 +21,39 @@ export async function getFromHtml(file: File) {
   return arr;
 }
 
+type keyable = {
+  [key: string]: any;
+};
+
+type following = {
+  relationships_following: Array<keyable>;
+}
+
+export async function getFromJson(file: File) {
+  let data: Array<keyable> | following = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event: ProgressEvent<FileReader>) => {
+      const fileContent: string | ArrayBuffer | null | undefined =
+        event.target?.result;
+      if (typeof fileContent === "string") {
+        const data: Array<keyable> | following = JSON.parse(fileContent);
+        resolve(data);
+      }
+    };
+
+    reader.readAsText(file);
+  });
+
+  let arr: Array<string> = [];
+
+  for (let value of (data as following)?.relationships_following ?? data) {
+    arr.push(value?.string_list_data[0].value);
+  }
+ 
+  return arr;
+}
+
 export function uid() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }

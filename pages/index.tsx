@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Loading from "../public/components/loading";
 import ListOfItems from "../public/components/listOfItems";
 import Link from "next/link";
-import { getFromHtml } from "../logic/helpers";
+import { getFromHtml, getFromJson } from "../logic/helpers";
 import sendToApi, { Response } from "../logic/sendToApi";
 import type0Function from "../logic/type0Function";
 
@@ -88,19 +88,32 @@ export default function Home() {
   const send = useCallback(async () => {
     let status: Response = {};
     if (type === 0) {
-      let followersFileToSend, followingFileToSend;
       if (!followers_file || !following_file) {
+        setStatus({ status: "error", message: "needed all files" });
         return;
+      }
+
+      let types = ["text/html", "application/json"];
+      if (
+        !types.includes(followers_file?.type) &&
+        !types.includes(following_file?.type)
+      ) {
+        setStatus({ status: "error", message: "wrong file types" });
       }
 
       setIsLoading(true);
 
+      let followersFileToSend, followingFileToSend;
       if (followers_file?.type === "text/html") {
         followersFileToSend = await getFromHtml(followers_file);
+      } else {
+        followersFileToSend = await getFromJson(followers_file);
       }
 
       if (following_file?.type === "text/html") {
         followingFileToSend = await getFromHtml(following_file);
+      } else {
+        followingFileToSend = await getFromJson(following_file);
       }
 
       status = {
@@ -109,14 +122,12 @@ export default function Home() {
         data: { list: type0Function(followersFileToSend, followingFileToSend) },
       };
     } else {
-
       ////////////////////////////////////////// TEMPORARY
 
       status = {
         message: "temporarily not working",
         status: "error",
       };
-
 
       // setLastusername(user);
       // if (user?.length < 4 || user === lastUsername) return;
@@ -263,26 +274,28 @@ export default function Home() {
               <Loading />
             </div>
           )}
-          <motion.div
-            className={styles.center}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              duration: 0.8,
-              delay: 0.5,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
+          {showStatus && (
             <motion.div
-              className={styles.result}
-              animate={{ height: status && showStatus ? "auto" : 0 }}
+              className={styles.center}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{
-                type: "spring",
+                duration: 0.8,
+                delay: 0.5,
+                ease: [0, 0.71, 0.2, 1.01],
               }}
             >
-              <ListOfItems items={status?.data?.list} />
+              <motion.div
+                className={styles.result}
+                animate={{ height: status && showStatus ? "auto" : 0 }}
+                transition={{
+                  type: "spring",
+                }}
+              >
+                <ListOfItems items={status?.data?.list} />
+              </motion.div>
             </motion.div>
-          </motion.div>
+          )}
         </div>
         {!status && <FOOTER_2 />}
         {status?.data?.list.length > 0 && type !== 0 && <FOOTER_1 />}
