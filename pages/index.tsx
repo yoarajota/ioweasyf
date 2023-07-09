@@ -284,15 +284,8 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </div>
-        {status ? (
-          status?.data?.list.length > 0 ? (
-            <FOOTER_1 />
-          ) : (
-            <></>
-          )
-        ) : (
-          <FOOTER_2 />
-        )}
+        {!status && <FOOTER_2 />}
+        {status?.data?.list.length > 0 && type !== 0 && <FOOTER_1 />}
       </main>
     </>
   );
